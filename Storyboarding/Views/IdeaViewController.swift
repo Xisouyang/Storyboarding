@@ -1,14 +1,11 @@
 //  ViewController.swift
-
 //  Storyboarding
-
 //  Created by Stephen Ouyang on 1/9/19.
-
 //  Copyright © 2019 Stephen Ouyang. All rights reserved.
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class IdeaViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     //    let addButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
     
@@ -24,7 +21,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
         // Do any additional setup after loading the view, typically from a nib.
         
-        var addButton: UIBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addTapped))
+         addButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addTapped))
         
         //        addButton.setTitle("Add", for: .normal)
         //        addButton.tintColor = .white
@@ -44,7 +41,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         navigationController?.navigationBar.barTintColor = UIColor.black
         navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
      // navigationItem.rightBarButtonItem = addButtonItem
-        navigationItem.rightBarButtonItem = addButton
+        navigationItem.rightBarButtonItem = addButtonItem
         navigationItem.rightBarButtonItem?.tintColor = .white
     
         // Initialize frame components of the tableview
@@ -54,6 +51,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         // create and add tableview to the view
         mainTableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight))
+        mainTableView.separatorColor = .black
         mainTableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
         mainTableView.delegate = self
         mainTableView.dataSource = self
@@ -61,7 +59,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     @objc func addTapped() {
         print("tapped")
-        let newController = newViewController()
+        let newController = GenreViewController()
         self.navigationController?.pushViewController(newController, animated: true)
     }
     // return number of rows
@@ -72,7 +70,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
     
     // create and return cell
-    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         //        var cell = UITableViewCell(style: .default, reuseIdentifier: "reuseIdentifier")
@@ -82,6 +79,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let tabImgView = UIImageView(image: tabImg)
         let tabBarWidth = (tabImg?.size.width)! / 3.5
         let tabBarHeight = (tabImg?.size.height)! / 3.5
+        
         tabImgView.contentMode = UIImageView.ContentMode.scaleAspectFit
         tabImgView.frame.size.width = tabBarWidth
         tabImgView.frame.size.height = tabBarHeight
@@ -93,7 +91,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.accessoryView = tabImgView
     
         return cell
-        
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -108,15 +105,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         navigationController?.navigationBar.titleTextAttributes = textAttributes
     }
     
-    //    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-    //        addButton.alpha = 0
-    //    }
-    //
-    //    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-    //        UIView.animate(withDuration: 1, animations: {
-    //            self.addButton.alpha = 1.0
-    //        })
-    //    }
+        func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+            navigationItem.rightBarButtonItem = nil
+        }
     
+        func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+//            UIView.animate(withDuration: 1, animations: {
+//                self.addButton.alpha = 1.0
+//            })
+            navigationItem.rightBarButtonItem = addButtonItem
+        }
 }
 

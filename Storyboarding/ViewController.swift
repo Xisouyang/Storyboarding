@@ -52,8 +52,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let displayWidth: CGFloat = self.view.frame.width
         let displayHeight: CGFloat = self.view.frame.height
         
-        
-        
         // create and add tableview to the view
         mainTableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight))
         mainTableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
@@ -61,23 +59,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         mainTableView.dataSource = self
         self.view.addSubview(mainTableView)
     }
-    
-    
-    
     @objc func addTapped() {
         print("tapped")
+        let newController = newViewController()
+        self.navigationController?.pushViewController(newController, animated: true)
     }
-    
-    
-    
     // return number of rows
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return 3
     }
-    
-    
     
     // create and return cell
     
@@ -86,77 +78,44 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //        var cell = UITableViewCell(style: .default, reuseIdentifier: "reuseIdentifier")
         
         let cellHeight = self.tableView(tableView, heightForRowAt: NSIndexPath(row: indexPath.row, section: indexPath.section) as IndexPath)
-        
         let tabImg = UIImage(named: "Tab-Bar")
-        
         let tabImgView = UIImageView(image: tabImg)
-        
-        let tabBarWidth = (tabImg?.size.width)! / 3
-        
-        let tabBarHeight = (tabImg?.size.height)! / 3
-        
-        tabImgView.contentMode = UIImageView.ContentMode.scaleAspectFill
-        
+        let tabBarWidth = (tabImg?.size.width)! / 3.5
+        let tabBarHeight = (tabImg?.size.height)! / 3.5
+        tabImgView.contentMode = UIImageView.ContentMode.scaleAspectFit
         tabImgView.frame.size.width = tabBarWidth
-        
         tabImgView.frame.size.height = tabBarHeight
         
-        
-        
         let cell = CustomTableViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: cellHeight), title: "test")
-        
         cell.textLabel?.text = tmpIdeaArr[indexPath.row]
-        
         cell.genreLabel.text = "example"
-        
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator
-        
         cell.accessoryView = tabImgView
-        
-        
-        
+    
         return cell
         
     }
-    
-    
-    
+
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
         let rowHeight: CGFloat = 70
-        
         return rowHeight
-        
     }
-    
-    
     
     // maintains color of title when scrolling
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        
         navigationController?.navigationBar.titleTextAttributes = textAttributes
-        
     }
     
-    
-    
     //    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-    
     //        addButton.alpha = 0
-    
     //    }
-    
     //
-    
     //    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-    
     //        UIView.animate(withDuration: 1, animations: {
-    
     //            self.addButton.alpha = 1.0
-    
     //        })
-    
     //    }
     
 }

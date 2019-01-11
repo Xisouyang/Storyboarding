@@ -1,135 +1,71 @@
-//
-//  ViewController.swift
-//  Storyboarding
-//
-//  Created by Stephen Ouyang on 1/10/19.
-//  Copyright © 2019 Stephen Ouyang. All rights reserved.
-//
-
 //  ViewController.swift
 
 //  Storyboarding
-
-//
 
 //  Created by Stephen Ouyang on 1/9/19.
 
 //  Copyright © 2019 Stephen Ouyang. All rights reserved.
 
-//
-
-
-
 import UIKit
 
-
-
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    
     
     //    let addButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
     
     let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
-    
     var mainTableView: UITableView!
-    
     var tmpIdeaArr: [String] = [
-        
         "A Horror Story", "Adventure of a Lifetime", "Mysterious Mystery"
-        
     ]
-    
     var addButtonItem: UIBarButtonItem!
-    
-    
-    
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+
         // Do any additional setup after loading the view, typically from a nib.
-        
-        
         
         var addButton: UIBarButtonItem = UIBarButtonItem(title: "Add", style: .plain, target: self, action: #selector(addTapped))
         
-        
-        
         //        addButton.setTitle("Add", for: .normal)
-        
         //        addButton.tintColor = .white
-        
         //        addButton.addTarget(self, action: #selector(addTapped(sender:)), for:.touchUpInside)
-        
         //        addButton.transform = CGAffineTransform(translationX: 0, y: 50)
-        
-        
-        
         // add the button to a container, otherwise the transform will be ignored
-        
         //        let addButtonContainer = UIView(frame: addButton.frame)
-        
         //        addButtonContainer.addSubview(addButton)
-        
         //        addButtonContainer.isUserInteractionEnabled = true
-        
         //        addButtonItem = UIBarButtonItem(customView: addButtonContainer)
-        
         //        addButtonItem.action = #selector(addTapped(sender:))
-        
-        
-        
-        //test
-        
-        
         
         // Add traits to navbar
         
         navigationItem.title = "Storyboarding"
-        
         navigationController?.navigationBar.prefersLargeTitles = true
-        
         navigationController?.navigationBar.barTintColor = UIColor.black
-        
         navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
-        
-        //        navigationItem.rightBarButtonItem = addButtonItem
-        
+     // navigationItem.rightBarButtonItem = addButtonItem
         navigationItem.rightBarButtonItem = addButton
-        
         navigationItem.rightBarButtonItem?.tintColor = .white
-        
-        
-        
+    
         // Initialize frame components of the tableview
         
         let displayWidth: CGFloat = self.view.frame.width
-        
         let displayHeight: CGFloat = self.view.frame.height
         
         
         
         // create and add tableview to the view
-        
         mainTableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight))
-        
         mainTableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
-        
         mainTableView.delegate = self
-        
         mainTableView.dataSource = self
-        
         self.view.addSubview(mainTableView)
-        
     }
     
     
     
     @objc func addTapped() {
-        
         print("tapped")
-        
     }
     
     
@@ -138,10 +74,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        
-        
         return 3
-        
     }
     
     

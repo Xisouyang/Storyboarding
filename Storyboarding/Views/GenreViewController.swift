@@ -24,6 +24,7 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         navigationItem.title = "Storyboarding"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.barTintColor = .black
@@ -47,6 +48,9 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 0
+        }
         return genreArray.count
     }
 
@@ -70,25 +74,27 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         headerView.frame = headerFrame
         let headerLabel = UILabel()
         headerLabel.frame = headerLabelFrame
-        if section == 0 {
-            headerLabel.text = "Genres"
-        } else {
-            headerLabel.text = genreArray[section]
-        }
         headerLabel.textAlignment = .center
         headerLabel.font = UIFont.boldSystemFont(ofSize: 25)
         headerView.addSubview(headerLabel)
         
         let expandButton = UIButton(type: .system)
         expandButton.setTitle("Expand", for: .normal)
+        expandButton.titleLabel?.font = UIFont(name: "GillSans-Light", size: 20)
         expandButton.sizeToFit()
         expandButton.tintColor = .black
         expandButton.frame.origin = CGPoint(x: tableView.frame.size.width - 70, y: 20)
+        headerView.addSubview(expandButton)
+        
         if section == 0 {
+            headerLabel.text = "Genres"
             headerLabel.frame.origin = CGPoint(x: tableView.frame.size.width / 4, y: 0)
             expandButton.isHidden = true
+        } else {
+            headerLabel.text = genreArray[section]
         }
-        headerView.addSubview(expandButton)
+        
+        
         return headerView
     }
     

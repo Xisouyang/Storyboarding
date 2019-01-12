@@ -11,6 +11,7 @@ import UIKit
 class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     let genreArray = [
+        "Placeholder",
         "Adventure",
         "Horror",
         "Romance",
@@ -36,7 +37,7 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         // create and add tableview to the view
         genreTableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight))
-        genreTableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
+        genreTableView.register(UITableViewCell.self, forCellReuseIdentifier: "normalCell")
         genreTableView.separatorColor = .black
         genreTableView.delegate = self
         genreTableView.dataSource = self
@@ -50,9 +51,10 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellHeight2 = self.tableView(tableView, heightForRowAt: NSIndexPath(row: indexPath.row, section: indexPath.section) as IndexPath)
-        let cell = CustomTableViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: cellHeight2), title: "test")
-        cell.textLabel?.text = genreArray[indexPath.row]
+
+        let cell = tableView.dequeueReusableCell(withIdentifier: "normalCell", for: indexPath)
+        cell.textLabel?.text = "test"
+        
         return cell
     }
     
@@ -62,11 +64,22 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        let headerFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width / 2, height: 70)
+        headerView.frame = headerFrame
         let headerLabel = UILabel()
-        headerLabel.text = "Genres"
+        headerLabel.frame = headerFrame
+        if section == 0 {
+            headerLabel.text = "Genres"
+        } else {
+            headerLabel.text = genreArray[section]
+        }
         headerLabel.textAlignment = .center
         headerLabel.font = UIFont.boldSystemFont(ofSize: 25)
-        return headerLabel
+        headerView.addSubview(headerLabel)
+//        let expandButton = UIButton(type: .system)
+//        expandButton.frame =
+        return headerView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -74,6 +87,9 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return headerHeight
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return genreArray.count
+    }
     
     /*
     // MARK: - Navigation
@@ -84,5 +100,4 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         // Pass the selected object to the new view controller.
     }
     */
-
 }

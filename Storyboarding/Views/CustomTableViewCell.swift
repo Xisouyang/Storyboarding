@@ -12,14 +12,18 @@ class CustomTableViewCell: UITableViewCell {
     
     var genreLabel: UILabel!
     
-    init(frame: CGRect, title: String) {
-        super.init(style: UITableViewCell.CellStyle.default, reuseIdentifier: "reuseIdentifier")
-        
-        let cellLabelPosition = self.frame.width / 1.5
-        let cellLabelHeight = self.frame.height * 1.55
-        genreLabel = UILabel(frame: CGRect(x: cellLabelPosition, y: 0, width: self.frame.width, height: cellLabelHeight))
-        genreLabel.textColor = .lightGray
-        addSubview(genreLabel)
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+            let cellLabelPosition = self.frame.width / 1.5
+            let cellLabelHeight = self.frame.height * 1.55
+            
+            genreLabel = UILabel(frame: CGRect(x: cellLabelPosition, y: 0, width: self.frame.width / 2, height: cellLabelHeight))
+            genreLabel.textColor = .lightGray
+            addSubview(genreLabel)
+    }
+    
+    @objc func expandTapped() {
+        print("expand tapped")
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -36,9 +40,4 @@ class CustomTableViewCell: UITableViewCell {
         
         // Configure the view for the selected state
     }
-    
-    //    func cellImageViewConstraint() {
-    //        cellImageView.translatesAutoresizingMaskIntoConstraints = false
-    //        cellImageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-    //    }
 }

@@ -52,7 +52,7 @@ class IdeaViewController: UIViewController, UITableViewDelegate, UITableViewData
         // create and add tableview to the view
         mainTableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight))
         mainTableView.separatorColor = .black
-        mainTableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "cell")
+        mainTableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "customCell")
         mainTableView.delegate = self
         mainTableView.dataSource = self
         self.view.addSubview(mainTableView)
@@ -72,19 +72,15 @@ class IdeaViewController: UIViewController, UITableViewDelegate, UITableViewData
     // create and return cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        //        var cell = UITableViewCell(style: .default, reuseIdentifier: "reuseIdentifier")
-        
-        let cellHeight = self.tableView(tableView, heightForRowAt: NSIndexPath(row: indexPath.row, section: indexPath.section) as IndexPath)
         let tabImg = UIImage(named: "Tab-Bar")
         let tabImgView = UIImageView(image: tabImg)
         let tabBarWidth = (tabImg?.size.width)! / 3.5
         let tabBarHeight = (tabImg?.size.height)! / 3.5
-        
         tabImgView.contentMode = UIImageView.ContentMode.scaleAspectFit
         tabImgView.frame.size.width = tabBarWidth
         tabImgView.frame.size.height = tabBarHeight
         
-        let cell = CustomTableViewCell(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: cellHeight), title: "test")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "customCell", for: indexPath) as! CustomTableViewCell
         cell.textLabel?.text = tmpIdeaArr[indexPath.row]
         cell.genreLabel.text = "example"
         cell.accessoryType = UITableViewCell.AccessoryType.disclosureIndicator

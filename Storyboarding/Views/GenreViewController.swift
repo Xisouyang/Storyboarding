@@ -26,7 +26,7 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         super.viewDidLoad()
         navigationItem.title = "Storyboarding"
         navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.barTintColor = UIColor.black
+        navigationController?.navigationBar.barTintColor = .black
         navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
         navigationItem.rightBarButtonItem?.tintColor = .white
         view.backgroundColor = .white
@@ -65,10 +65,11 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-        let headerFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width / 2, height: 70)
+        let headerFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 70)
+        let headerLabelFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width / 2, height: 70)
         headerView.frame = headerFrame
         let headerLabel = UILabel()
-        headerLabel.frame = headerFrame
+        headerLabel.frame = headerLabelFrame
         if section == 0 {
             headerLabel.text = "Genres"
         } else {
@@ -77,8 +78,17 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         headerLabel.textAlignment = .center
         headerLabel.font = UIFont.boldSystemFont(ofSize: 25)
         headerView.addSubview(headerLabel)
-//        let expandButton = UIButton(type: .system)
-//        expandButton.frame =
+        
+        let expandButton = UIButton(type: .system)
+        expandButton.setTitle("Expand", for: .normal)
+        expandButton.sizeToFit()
+        expandButton.tintColor = .black
+        expandButton.frame.origin = CGPoint(x: tableView.frame.size.width - 70, y: 20)
+        if section == 0 {
+            headerLabel.frame.origin = CGPoint(x: tableView.frame.size.width / 4, y: 0)
+            expandButton.isHidden = true
+        }
+        headerView.addSubview(expandButton)
         return headerView
     }
     

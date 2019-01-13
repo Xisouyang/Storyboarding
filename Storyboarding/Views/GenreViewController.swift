@@ -21,6 +21,15 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         "Mystery"
     ]
     
+    let genreDescription = [
+        "Placeholder",
+        "Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure DescriptionAdeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description",
+        "Horror Description",
+        "Romance Description",
+        "Sci-Fi Description",
+        "Mystery Description"
+    ]
+    
     let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
     var genreTableView: UITableView!
 
@@ -44,6 +53,7 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         genreTableView.separatorColor = .black
         genreTableView.delegate = self
         genreTableView.dataSource = self
+//        genreTableView.rowHeight = UITableView.automaticDimension
         self.view.addSubview(genreTableView)
 
         // Do any additional setup after loading the view.
@@ -53,20 +63,25 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         if section == 0 {
             return 0
         }
-        return genreArray.count
+//        return genreArray.count
+        return 1
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "normalCell", for: indexPath)
-        cell.textLabel?.text = "test"
+        cell.textLabel?.text = genreDescription[indexPath.section]
+        cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
+        cell.textLabel?.numberOfLines = 0
+        cell.textLabel?.sizeToFit()
         
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let rowHeight: CGFloat = 70
-        return rowHeight
+        // in order to have the resize work i need access to the cell's textlabel
+        // can't access the cell bc its not even created yet
+        return 250
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

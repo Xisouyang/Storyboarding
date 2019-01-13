@@ -23,8 +23,8 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     let genreDescription = [
         "Placeholder",
-        "Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure DescriptionAdeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description",
-        "Horror Description",
+        "Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure DescriptionAdeventure Description Adeventure Description Adeventure Description Adeventure ",
+        "Horror Description, Horror Description, Horror Description, Horror Description Horror Description, Horror Description, Horror Description, Horror Description",
         "Romance Description",
         "Sci-Fi Description",
         "Mystery Description"
@@ -49,11 +49,12 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
         // create and add tableview to the view
         genreTableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight))
+        genreTableView.estimatedRowHeight = 200
+        genreTableView.rowHeight = UITableView.automaticDimension
         genreTableView.register(UITableViewCell.self, forCellReuseIdentifier: "normalCell")
         genreTableView.separatorColor = .black
         genreTableView.delegate = self
         genreTableView.dataSource = self
-//        genreTableView.rowHeight = UITableView.automaticDimension
         self.view.addSubview(genreTableView)
 
         // Do any additional setup after loading the view.
@@ -78,11 +79,11 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        // in order to have the resize work i need access to the cell's textlabel
-        // can't access the cell bc its not even created yet
-        return 250
-    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        // in order to have the resize work i need access to the cell's textlabel
+//        // can't access the cell bc its not even created yet
+//        return 250
+//    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         // section header view for tableView

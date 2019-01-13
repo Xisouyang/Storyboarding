@@ -50,7 +50,7 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         genreTableView.estimatedRowHeight = 200
         genreTableView.rowHeight = UITableView.automaticDimension
         genreTableView.register(UITableViewCell.self, forCellReuseIdentifier: "normalCell")
-        genreTableView.separatorColor = .black
+        genreTableView.separatorColor = .clear
         genreTableView.delegate = self
         genreTableView.dataSource = self
         self.view.addSubview(genreTableView)

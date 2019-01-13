@@ -10,6 +10,8 @@ import UIKit
 
 class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    var isExpanded: Bool = true
+    
     let genreArray = [
         "Placeholder",
         "Adventure",
@@ -24,7 +26,7 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        // navigation bar attributes
         navigationItem.title = "Storyboarding"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.barTintColor = .black
@@ -68,34 +70,46 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        // section header view for tableView
         let headerView = UIView()
         let headerFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 70)
-        let headerLabelFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width / 2, height: 70)
         headerView.frame = headerFrame
+
+        // section header label for tableView
+        let headerLabelFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width / 2, height: 70)
         let headerLabel = UILabel()
         headerLabel.frame = headerLabelFrame
         headerLabel.textAlignment = .center
         headerLabel.font = UIFont.boldSystemFont(ofSize: 25)
         headerView.addSubview(headerLabel)
         
+        // button in header for tableView
         let expandButton = UIButton(type: .system)
-        expandButton.setTitle("Expand", for: .normal)
+        expandButton.setTitle(isExpanded ? "Close" : "Expand", for: .normal)
         expandButton.titleLabel?.font = UIFont(name: "GillSans-Light", size: 20)
+        expandButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         expandButton.sizeToFit()
         expandButton.tintColor = .black
         expandButton.frame.origin = CGPoint(x: tableView.frame.size.width - 70, y: 20)
         headerView.addSubview(expandButton)
-        
+
+        // Separates Header from regular sections
         if section == 0 {
             headerLabel.text = "Genres"
             headerLabel.frame.origin = CGPoint(x: tableView.frame.size.width / 4, y: 0)
             expandButton.isHidden = true
+            expandButton.isEnabled = false
         } else {
             headerLabel.text = genreArray[section]
+            headerView.backgroundColor = UIColor.lightGray
         }
-        
-        
         return headerView
+    }
+    
+    @objc func buttonTapped(button: UIButton) {
+        isExpanded = !isExpanded
+        button.setTitle(isExpanded ? "Close" : "Expand", for: .normal)
+        button.sizeToFit()
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

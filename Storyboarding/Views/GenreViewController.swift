@@ -10,10 +10,7 @@ import UIKit
 
 class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var isExpanded: Bool = true
-    
-    let genreArray = [
-        "Placeholder",
+    let genreTopics = [
         "Adventure",
         "Horror",
         "Romance",
@@ -21,13 +18,13 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         "Mystery"
     ]
     
-    let genreDescription = [
-        "Placeholder",
-        "Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure DescriptionAdeventure Description Adeventure Description Adeventure Description Adeventure ",
-        "Horror Description, Horror Description, Horror Description, Horror Description Horror Description, Horror Description, Horror Description, Horror Description",
-        "Romance Description",
-        "Sci-Fi Description",
-        "Mystery Description"
+    var genreDescription = [
+
+        Expandables(expanded: true, descriptions: ["Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure DescriptionAdeventure Description Adeventure Description Adeventure Description"]),
+        Expandables(expanded: true, descriptions: ["Horror Description, Horror Description"]),
+        Expandables(expanded: true, descriptions: ["Romance Description"]),
+        Expandables(expanded: true, descriptions: ["Sci-Fi Description"]),
+        Expandables(expanded: true, descriptions: ["Mystery Description"])
     ]
     
     let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
@@ -35,6 +32,7 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // navigation bar attributes
         navigationItem.title = "Storyboarding"
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -61,17 +59,18 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 0 {
-            return 0
+        
+        if genreDescription[section].expanded {
+            return 1
         }
-//        return genreArray.count
-        return 1
+        return 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "normalCell", for: indexPath)
-        cell.textLabel?.text = genreDescription[indexPath.section]
+        let pathName = genreDescription[indexPath.section].descriptions
+        cell.textLabel?.text = pathName[0]
         cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
         cell.textLabel?.numberOfLines = 0
         cell.textLabel?.sizeToFit()
@@ -101,31 +100,42 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         // button in header for tableView
         let expandButton = UIButton(type: .system)
-        expandButton.setTitle(isExpanded ? "Close" : "Expand", for: .normal)
+        expandButton.setTitle("Close", for: .normal)
         expandButton.titleLabel?.font = UIFont(name: "GillSans-Light", size: 20)
         expandButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         expandButton.sizeToFit()
         expandButton.tintColor = .black
         expandButton.frame.origin = CGPoint(x: tableView.frame.size.width - 70, y: 20)
+        expandButton.tag = section
         headerView.addSubview(expandButton)
 
-        // Separates Header from regular sections
-        if section == 0 {
-            headerLabel.text = "Genres"
-            headerLabel.frame.origin = CGPoint(x: tableView.frame.size.width / 4, y: 0)
-            expandButton.isHidden = true
-            expandButton.isEnabled = false
-        } else {
-            headerLabel.text = genreArray[section]
-            headerView.backgroundColor = UIColor.lightGray
-        }
+        headerLabel.text = genreTopics[section]
+        headerView.backgroundColor = UIColor.lightGray
+    
         return headerView
     }
     
     @objc func buttonTapped(button: UIButton) {
-        isExpanded = !isExpanded
-        button.setTitle(isExpanded ? "Close" : "Expand", for: .normal)
+        
+        var indexPaths = [IndexPath]()
+        let section = button.tag
+        let expanded = !genreDescription[section].expanded
+        genreDescription[section].expanded = expanded
+        button.setTitle(expanded ? "Close" : "Expand", for: .normal)
         button.sizeToFit()
+        for row in genreDescription[section].descriptions.indices {
+            let path = IndexPath(row: row, section: section)
+            indexPaths.append(path)
+        }
+        
+        print(expanded)
+        print(genreDescription[section].expanded)
+        
+        if !expanded {
+            genreTableView.deleteRows(at: indexPaths, with: .fade)
+        } else {
+            genreTableView.insertRows(at: indexPaths, with: .fade)
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -134,7 +144,7 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return genreArray.count
+        return genreTopics.count
     }
     
     /*

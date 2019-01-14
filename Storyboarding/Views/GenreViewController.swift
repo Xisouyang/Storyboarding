@@ -29,6 +29,9 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
     var genreTableView: UITableView!
+    var headerView: UIView!
+    var headerLabel: UILabel!
+    var expandButton: UIButton!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,7 +42,6 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         navigationController?.navigationBar.barTintColor = .black
         navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
         navigationItem.rightBarButtonItem?.tintColor = .white
-        view.backgroundColor = .white
 
         // Initialize frame components of the tableview
         let displayWidth: CGFloat = self.view.frame.width
@@ -86,20 +88,21 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         // section header view for tableView
-        let headerView = UIView()
+        headerView = UIView()
         let headerFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 70)
         headerView.frame = headerFrame
 
         // section header label for tableView
         let headerLabelFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width / 2, height: 70)
-        let headerLabel = UILabel()
+        headerLabel = UILabel()
         headerLabel.frame = headerLabelFrame
         headerLabel.textAlignment = .center
-        headerLabel.font = UIFont.boldSystemFont(ofSize: 25)
+        headerLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        headerLabel.text = genreTopics[section]
         headerView.addSubview(headerLabel)
         
         // button in header for tableView
-        let expandButton = UIButton(type: .system)
+        expandButton = UIButton(type: .system)
         expandButton.setTitle("Expand", for: .normal)
         expandButton.titleLabel?.font = UIFont(name: "GillSans-Light", size: 20)
         expandButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
@@ -109,9 +112,32 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         expandButton.tag = section
         headerView.addSubview(expandButton)
 
-        headerLabel.text = genreTopics[section]
-    
+        /* Plan was to make headerView(UIView) section clickable, but don't know how to do that.
+        Tried: UITapGestureRecognizor(both normal and custom)
+               touchesBegan
+        Should just use cells themselves for clicking
+         */
+        
+        // make header clickable
+//        let tapGesture = CustomGestureRecognizer(target: self, action: #selector(headerTapped(gesture:)), myView: headerView)
+//        headerView.addGestureRecognizer(tapGesture)
+//        headerView.isUserInteractionEnabled = true
+        
         return headerView
+    }
+    
+    @objc func headerTapped(gesture: CustomGestureRecognizer) {
+        print("tapped")
+        gesture.myView?.backgroundColor = .yellow
+        
+//        if let header = gesture.view {
+//            if gesture.state == .began {
+//                header.backgroundColor = .black
+//            }
+//            if gesture.state == .ended {
+//                header.backgroundColor = .white
+//            }
+//        }
     }
     
     // action to expand or collapse sections
@@ -127,7 +153,6 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
             let path = IndexPath(row: row, section: section)
             indexPaths.append(path)
         }
-        
         if !expanded {
             genreTableView.deleteRows(at: indexPaths, with: .fade)
         } else {
@@ -140,14 +165,19 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return headerHeight
     }
     
+    // add separators for sections
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-        tableView.separatorInset.left = 10
-        tableView.separatorInset.right = 20
+        tableView.separatorInset.left = 5
+        tableView.separatorInset.right = 15
         let footerView = UIView()
         let separatorView = UIView(frame: CGRect(x: tableView.separatorInset.left, y: footerView.frame.height, width: tableView.frame.width - tableView.separatorInset.right, height: 0.5))
         separatorView.backgroundColor = .black
         footerView.addSubview(separatorView)
         return footerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 1
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

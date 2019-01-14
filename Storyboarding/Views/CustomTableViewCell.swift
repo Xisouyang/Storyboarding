@@ -22,10 +22,6 @@ class CustomTableViewCell: UITableViewCell {
             addSubview(genreLabel)
     }
     
-    @objc func expandTapped() {
-        print("expand tapped")
-    }
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

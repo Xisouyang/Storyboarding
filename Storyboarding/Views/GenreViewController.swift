@@ -20,11 +20,11 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     var genreDescription = [
 
-        Expandables(expanded: true, descriptions: ["Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure DescriptionAdeventure Description Adeventure Description Adeventure Description"]),
-        Expandables(expanded: true, descriptions: ["Horror Description, Horror Description"]),
-        Expandables(expanded: true, descriptions: ["Romance Description"]),
-        Expandables(expanded: true, descriptions: ["Sci-Fi Description"]),
-        Expandables(expanded: true, descriptions: ["Mystery Description"])
+        Expandables(expanded: false, descriptions: ["Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure DescriptionAdeventure Description Adeventure Description Adeventure Description"]),
+        Expandables(expanded: false, descriptions: ["Horror Description, Horror Description"]),
+        Expandables(expanded: false, descriptions: ["Romance Description"]),
+        Expandables(expanded: false, descriptions: ["Sci-Fi Description"]),
+        Expandables(expanded: false, descriptions: ["Mystery Description"])
     ]
     
     let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
@@ -100,7 +100,7 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         
         // button in header for tableView
         let expandButton = UIButton(type: .system)
-        expandButton.setTitle("Close", for: .normal)
+        expandButton.setTitle("Expand", for: .normal)
         expandButton.titleLabel?.font = UIFont(name: "GillSans-Light", size: 20)
         expandButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         expandButton.sizeToFit()
@@ -110,11 +110,11 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         headerView.addSubview(expandButton)
 
         headerLabel.text = genreTopics[section]
-        headerView.backgroundColor = UIColor.lightGray
     
         return headerView
     }
     
+    // action to expand or collapse sections
     @objc func buttonTapped(button: UIButton) {
         
         var indexPaths = [IndexPath]()
@@ -128,9 +128,6 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
             indexPaths.append(path)
         }
         
-        print(expanded)
-        print(genreDescription[section].expanded)
-        
         if !expanded {
             genreTableView.deleteRows(at: indexPaths, with: .fade)
         } else {
@@ -141,6 +138,16 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
      let headerHeight: CGFloat = 70
         return headerHeight
+    }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        tableView.separatorInset.left = 10
+        tableView.separatorInset.right = 20
+        let footerView = UIView()
+        let separatorView = UIView(frame: CGRect(x: tableView.separatorInset.left, y: footerView.frame.height, width: tableView.frame.width - tableView.separatorInset.right, height: 0.5))
+        separatorView.backgroundColor = .black
+        footerView.addSubview(separatorView)
+        return footerView
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

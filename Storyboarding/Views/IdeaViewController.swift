@@ -35,22 +35,21 @@ class IdeaViewController: UIViewController, UITableViewDelegate, UITableViewData
         //        addButtonItem.action = #selector(addTapped(sender:))
         
         // Add traits to navbar
-        
         navigationItem.title = "Storyboarding"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.barTintColor = UIColor.black
         navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
-     // navigationItem.rightBarButtonItem = addButtonItem
         navigationItem.rightBarButtonItem = addButtonItem
         navigationItem.rightBarButtonItem?.tintColor = .white
     
         // Initialize frame components of the tableview
-        
         let displayWidth: CGFloat = self.view.frame.width
         let displayHeight: CGFloat = self.view.frame.height
         
         // create and add tableview to the view
         mainTableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight))
+        mainTableView.separatorInset.left = 10
+        mainTableView.separatorInset.right = 10
         mainTableView.separatorColor = .black
         mainTableView.register(CustomTableViewCell.self, forCellReuseIdentifier: "customCell")
         mainTableView.delegate = self
@@ -96,7 +95,6 @@ class IdeaViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     // maintains color of title when scrolling
-    
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         navigationController?.navigationBar.titleTextAttributes = textAttributes
     }

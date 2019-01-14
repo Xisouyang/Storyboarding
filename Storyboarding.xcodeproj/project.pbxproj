@@ -17,6 +17,7 @@
 		5D0D924821EBDCAC000C1503 /* Expandables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0D924721EBDCAC000C1503 /* Expandables.swift */; };
 		5D0D924A21EC664C000C1503 /* CustomUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0D924921EC664C000C1503 /* CustomUIView.swift */; };
 		5D0D924C21EC6C05000C1503 /* CustomGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0D924B21EC6C05000C1503 /* CustomGestureRecognizer.swift */; };
+		5DF7826821ED127100924A43 /* ElementsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF7826721ED127100924A43 /* ElementsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		5D0D924721EBDCAC000C1503 /* Expandables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expandables.swift; sourceTree = "<group>"; };
 		5D0D924921EC664C000C1503 /* CustomUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUIView.swift; sourceTree = "<group>"; };
 		5D0D924B21EC6C05000C1503 /* CustomGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomGestureRecognizer.swift; sourceTree = "<group>"; };
+		5DF7826721ED127100924A43 /* ElementsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,11 +50,12 @@
 		5D001EF021E9132100B97E6A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				5D02B80421E86E0500224F56 /* CustomTableViewCell.swift */,
 				5D0D924921EC664C000C1503 /* CustomUIView.swift */,
 				5D0D924B21EC6C05000C1503 /* CustomGestureRecognizer.swift */,
+				5D02B80421E86E0500224F56 /* CustomTableViewCell.swift */,
 				5D02B7F421E86DC600224F56 /* IdeaViewController.swift */,
 				5D02B80621E8787800224F56 /* GenreViewController.swift */,
+				5DF7826721ED127100924A43 /* ElementsViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -169,6 +172,7 @@
 				5D0D924821EBDCAC000C1503 /* Expandables.swift in Sources */,
 				5D0D924A21EC664C000C1503 /* CustomUIView.swift in Sources */,
 				5D0D924C21EC6C05000C1503 /* CustomGestureRecognizer.swift in Sources */,
+				5DF7826821ED127100924A43 /* ElementsViewController.swift in Sources */,
 				5D02B80521E86E0500224F56 /* CustomTableViewCell.swift in Sources */,
 				5D02B7F521E86DC600224F56 /* IdeaViewController.swift in Sources */,
 				5D02B7F321E86DC600224F56 /* AppDelegate.swift in Sources */,

@@ -9,7 +9,7 @@
 import UIKit
 
 class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
+
     let genreTopics = [
         "Adventure",
         "Horror",
@@ -19,18 +19,16 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
     ]
     
     var genreDescription = [
-
         Expandables(expanded: false, descriptions: ["Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure Description Adeventure DescriptionAdeventure Description Adeventure Description Adeventure Description"]),
         Expandables(expanded: false, descriptions: ["Horror Description, Horror Description"]),
         Expandables(expanded: false, descriptions: ["Romance Description"]),
         Expandables(expanded: false, descriptions: ["Sci-Fi Description"]),
         Expandables(expanded: false, descriptions: ["Mystery Description"])
     ]
-    
     let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
     var genreTableView: UITableView!
-    var headerView: UIView!
-    var headerLabel: UILabel!
+    var sectionView: UIView!
+    var sectionLabel: UILabel!
     var expandButton: UIButton!
 
     override func viewDidLoad() {
@@ -80,6 +78,14 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let elementVC = ElementsViewController()
+//        elementVC.test = genreTopics[indexPath.row]
+        self.navigationController?.pushViewController(elementVC, animated: true)
+//        print("selected \(indexPath.row)")
+    }
+    
 //    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 //        // in order to have the resize work i need access to the cell's textlabel
 //        // can't access the cell bc its not even created yet
@@ -88,18 +94,22 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         // section header view for tableView
-        headerView = UIView()
-        let headerFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 70)
-        headerView.frame = headerFrame
+        
+        // TODO: Make Custom class for UIView, don't know how to access my tableview through the new class though
+                
+        sectionView = UIView()
+        let sectionFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 70)
+        sectionView.frame = sectionFrame
 
         // section header label for tableView
-        let headerLabelFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width / 2, height: 70)
-        headerLabel = UILabel()
-        headerLabel.frame = headerLabelFrame
-        headerLabel.textAlignment = .center
-        headerLabel.font = UIFont.boldSystemFont(ofSize: 20)
-        headerLabel.text = genreTopics[section]
-        headerView.addSubview(headerLabel)
+        let sectionLabelFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width / 2, height: 70)
+        sectionLabel = UILabel()
+        sectionLabel.frame = sectionLabelFrame
+        sectionLabel.textAlignment = .center
+        sectionLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        sectionLabel.text = genreTopics[section]
+        sectionView.addSubview(sectionLabel)
+        
         
         // button in header for tableView
         expandButton = UIButton(type: .system)
@@ -110,54 +120,14 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         expandButton.tintColor = .black
         expandButton.frame.origin = CGPoint(x: tableView.frame.size.width - 70, y: 20)
         expandButton.tag = section
-        headerView.addSubview(expandButton)
-
-        /* Plan was to make headerView(UIView) section clickable, but don't know how to do that.
-        Tried: UITapGestureRecognizor(both normal and custom)
-               touchesBegan
-        Should just use cells themselves for clicking
-         */
+        sectionView.addSubview(expandButton)
         
         // make header clickable
-//        let tapGesture = CustomGestureRecognizer(target: self, action: #selector(headerTapped(gesture:)), myView: headerView)
-//        headerView.addGestureRecognizer(tapGesture)
-//        headerView.isUserInteractionEnabled = true
+//        let tapGesture = CustomGestureRecognizer(target: self, action: #selector(headerTapped(gesture:)), myView: sectionView)
+//        sectionView.addGestureRecognizer(tapGesture)
+//        sectionView.isUserInteractionEnabled = true
         
-        return headerView
-    }
-    
-    @objc func headerTapped(gesture: CustomGestureRecognizer) {
-        print("tapped")
-        gesture.myView?.backgroundColor = .yellow
-        
-//        if let header = gesture.view {
-//            if gesture.state == .began {
-//                header.backgroundColor = .black
-//            }
-//            if gesture.state == .ended {
-//                header.backgroundColor = .white
-//            }
-//        }
-    }
-    
-    // action to expand or collapse sections
-    @objc func buttonTapped(button: UIButton) {
-        
-        var indexPaths = [IndexPath]()
-        let section = button.tag
-        let expanded = !genreDescription[section].expanded
-        genreDescription[section].expanded = expanded
-        button.setTitle(expanded ? "Close" : "Expand", for: .normal)
-        button.sizeToFit()
-        for row in genreDescription[section].descriptions.indices {
-            let path = IndexPath(row: row, section: section)
-            indexPaths.append(path)
-        }
-        if !expanded {
-            genreTableView.deleteRows(at: indexPaths, with: .fade)
-        } else {
-            genreTableView.insertRows(at: indexPaths, with: .fade)
-        }
+        return sectionView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -182,6 +152,45 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return genreTopics.count
+    }
+    
+    /* Plan was to make sectionView(UIView) section clickable, but don't know how to do that.
+     Tried: UITapGestureRecognizor(both normal and custom)
+     touchesBegan
+     Should just use cells themselves for clicking
+     */
+    @objc func headerTapped(gesture: CustomGestureRecognizer) {
+        print("tapped")
+        gesture.myView?.backgroundColor = .yellow
+        
+        //        if let header = gesture.view {
+        //            if gesture.state == .began {
+        //                header.backgroundColor = .black
+        //            }
+        //            if gesture.state == .ended {
+        //                header.backgroundColor = .white
+        //            }
+        //        }
+    }
+    
+    // action to expand or collapse sections
+    @objc func buttonTapped(button: UIButton) {
+        
+        var indexPaths = [IndexPath]()
+        let section = button.tag
+        let expanded = !genreDescription[section].expanded
+        genreDescription[section].expanded = expanded
+        button.setTitle(expanded ? "Close" : "Expand", for: .normal)
+        button.sizeToFit()
+        for row in genreDescription[section].descriptions.indices {
+            let path = IndexPath(row: row, section: section)
+            indexPaths.append(path)
+        }
+        if !expanded {
+            genreTableView.deleteRows(at: indexPaths, with: .fade)
+        } else {
+            genreTableView.insertRows(at: indexPaths, with: .fade)
+        }
     }
     
     /*

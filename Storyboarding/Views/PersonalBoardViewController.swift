@@ -8,17 +8,18 @@
 
 import UIKit
 
-class PersonalBoardViewController: UIViewController {
+class PersonalBoardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     var storage: [String : [String]] = [:]
     var ideas: [Expandables] = []
-    let storyElements = [
+    let storypersonals = [
         "Plot",
         "Conflict",
         "Characters",
         "Setting",
         "Resolution"
     ]
+    var personalTableView: UITableView!
     var saveButtonItem: UIBarButtonItem!
     var headerView: UIView!
     var headerViewFrame: CGRect!
@@ -30,9 +31,9 @@ class PersonalBoardViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        for index in 0..<storyElements.count {
-            if storage[storyElements[index]] == nil {
-                storage[storyElements[index]] = [""]
+        for index in 0..<storypersonals.count {
+            if storage[storypersonals[index]] == nil {
+                storage[storypersonals[index]] = [""]
             }
         }
         
@@ -53,11 +54,11 @@ class PersonalBoardViewController: UIViewController {
         view.backgroundColor = .white
         print("data: \(storage)")
         ideas = [
-            Expandables(expanded: false, descriptions: storage[storyElements[0]]!),
-            Expandables(expanded: false, descriptions: storage[storyElements[1]]!),
-            Expandables(expanded: false, descriptions: storage[storyElements[2]]!),
-            Expandables(expanded: false, descriptions: storage[storyElements[3]]!),
-            Expandables(expanded: false, descriptions: storage[storyElements[4]]!),
+            Expandables(expanded: false, descriptions: storage[storypersonals[0]]!),
+            Expandables(expanded: false, descriptions: storage[storypersonals[1]]!),
+            Expandables(expanded: false, descriptions: storage[storypersonals[2]]!),
+            Expandables(expanded: false, descriptions: storage[storypersonals[3]]!),
+            Expandables(expanded: false, descriptions: storage[storypersonals[4]]!),
         ]
         print(ideas)
         
@@ -89,14 +90,35 @@ class PersonalBoardViewController: UIViewController {
         headerLabel.font = UIFont.boldSystemFont(ofSize: 30)
         headerLabel.text = genreString
         headerView.addSubview(headerLabel)
+        
+        // Initialize frame components of the tableview
+        let displayWidth: CGFloat = self.view.frame.width
+        let displayHeight: CGFloat = self.view.frame.height
+        
+        // create and add tableview to the view
+        personalTableView = UITableView(frame: CGRect(x: 0, y: headerView.frame.height, width: displayWidth, height: displayHeight))
+        personalTableView.estimatedRowHeight = 200
+        personalTableView.rowHeight = UITableView.automaticDimension
+        personalTableView.register(UITableViewCell.self, forCellReuseIdentifier: "normalCell")
+        personalTableView.separatorInset.left = 10
+        personalTableView.separatorInset.right = 10
+        personalTableView.delegate = self
+        personalTableView.dataSource = self
+        personalTableView.separatorColor = .black
+        self.view.addSubview(personalTableView)
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 10
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = personalTableView.dequeueReusableCell(withIdentifier: "normalCell", for: indexPath)
+        return cell
     }
     
     @objc func saveTapped() {
         print("tapped")
-//        let personalVC = PersonalBoardViewController()
-//        personalVC.storage = selectedItems
-//        personalVC.genreString = headerLabel
-//        self.navigationController?.pushViewController(personalVC, animated: true)
     }
     /*
     // MARK: - Navigation

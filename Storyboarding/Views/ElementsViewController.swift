@@ -14,14 +14,6 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
     let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
     var elementTableView: UITableView!
     
-//    let storyElements: [String : String] = [
-//        "Adventure": "Adventure Stuff",
-//        "Horror": "Horror Stuff",
-//        "Sci-Fi": "Sci-Fi Stuff",
-//        "Romance": "Romance Stuff",
-//        "Mystery": "Mystery Stuff"
-//    ]
-    
     var test: [Expandables] = [
         Expandables(expanded: false, descriptions: ["test", "test", "test", "test", "test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test"]),
         Expandables(expanded: false, descriptions: ["test", "test", "test", "test", "test"]),
@@ -38,13 +30,16 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
         "Resolution"
     ]
     var headerView: UIView!
+    var headerViewFrame: CGRect!
+    var headerLabel: UILabel!
+    var headerLabelFrame: CGRect!
     var sectionView: UIView!
     var sectionLabel: UILabel!
     var expandButton: UIButton!
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
         
@@ -57,9 +52,18 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
         navigationItem.rightBarButtonItem?.tintColor = .white
         
         // Creates header view
-        headerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 75))
+        headerViewFrame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 75)
+        headerView = UIView(frame: headerViewFrame)
         headerView.backgroundColor = .lightGray
         view.addSubview(headerView)
+        
+        headerLabelFrame = CGRect(x: 0, y: 0, width: headerView.frame.width, height: headerView.frame.height)
+        headerLabel = UILabel(frame: headerLabelFrame)
+        headerLabel.textAlignment = .center
+        headerLabel.font = UIFont.boldSystemFont(ofSize: 30)
+        headerLabel.text = "Genres"
+        headerView.addSubview(headerLabel)
+        
         
         // Initialize frame components of the tableview
         let displayWidth: CGFloat = self.view.frame.width

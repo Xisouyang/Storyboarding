@@ -12,7 +12,7 @@ class PersonalBoardViewController: UIViewController, UITableViewDelegate, UITabl
     
     var storage: [String : [String]] = [:]
     var ideas: [Expandables] = []
-    let storypersonals = [
+    let personalElements = [
         "Plot",
         "Conflict",
         "Characters",
@@ -25,15 +25,19 @@ class PersonalBoardViewController: UIViewController, UITableViewDelegate, UITabl
     var headerViewFrame: CGRect!
     var headerLabel: UILabel!
     var headerLabelFrame: CGRect!
+    var sectionView: UIView!
+    var sectionLabel: UILabel!
     let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
     var genreString: String = ""
+    var expandButton: UIButton!
+
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        for index in 0..<storypersonals.count {
-            if storage[storypersonals[index]] == nil {
-                storage[storypersonals[index]] = [""]
+        for index in 0..<personalElements.count {
+            if storage[personalElements[index]] == nil {
+                storage[personalElements[index]] = [""]
             }
         }
         
@@ -54,11 +58,11 @@ class PersonalBoardViewController: UIViewController, UITableViewDelegate, UITabl
         view.backgroundColor = .white
         print("data: \(storage)")
         ideas = [
-            Expandables(expanded: false, descriptions: storage[storypersonals[0]]!),
-            Expandables(expanded: false, descriptions: storage[storypersonals[1]]!),
-            Expandables(expanded: false, descriptions: storage[storypersonals[2]]!),
-            Expandables(expanded: false, descriptions: storage[storypersonals[3]]!),
-            Expandables(expanded: false, descriptions: storage[storypersonals[4]]!),
+            Expandables(expanded: false, descriptions: storage[personalElements[0]]!),
+            Expandables(expanded: false, descriptions: storage[personalElements[1]]!),
+            Expandables(expanded: false, descriptions: storage[personalElements[2]]!),
+            Expandables(expanded: false, descriptions: storage[personalElements[3]]!),
+            Expandables(expanded: false, descriptions: storage[personalElements[4]]!),
         ]
         print(ideas)
         
@@ -108,17 +112,98 @@ class PersonalBoardViewController: UIViewController, UITableViewDelegate, UITabl
         self.view.addSubview(personalTableView)
     }
     
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        
+        // creates section UIViews
+        sectionView = UIView()
+        let sectionFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 70)
+        sectionView?.frame = sectionFrame
+        sectionView?.backgroundColor = .white
+        
+        // section header label for tableView
+        let sectionLabelFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width / 2, height: 70)
+        sectionLabel = UILabel()
+        sectionLabel.frame = sectionLabelFrame
+        sectionLabel.textAlignment = .center
+        sectionLabel.font = UIFont.boldSystemFont(ofSize: 20)
+        sectionLabel.text = personalElements[section]
+        sectionView?.addSubview(sectionLabel)
+        
+        // button in header for tableView
+        let expanded = ideas[section].expanded
+        expandButton = UIButton(type: .system)
+        expandButton.setTitle(expanded ? "Close" : "Expand", for: .normal)
+        expandButton.titleLabel?.font = UIFont(name: "GillSans-Light", size: 20)
+        expandButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        expandButton.sizeToFit()
+        expandButton.tintColor = .black
+        expandButton.frame.origin = CGPoint(x: tableView.frame.size.width - 70, y: 20)
+        expandButton.tag = section
+        sectionView?.addSubview(expandButton)
+        
+        return sectionView
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        if ideas[section].expanded {
+            return ideas[section].descriptions.count
+        }
+        return 0
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return personalElements.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = personalTableView.dequeueReusableCell(withIdentifier: "normalCell", for: indexPath)
+        cell.textLabel?.text = ideas[indexPath.section].descriptions[indexPath.row]
+        cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
+        cell.textLabel?.numberOfLines = 0
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let headerHeight: CGFloat = 70
+        return headerHeight
+    }
+    
+    // add separators for sections
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        tableView.separatorInset.left = 5
+        tableView.separatorInset.right = 15
+        let footerView = UIView()
+        let separatorView = UIView(frame: CGRect(x: tableView.separatorInset.left, y: footerView.frame.height, width: tableView.frame.width - tableView.separatorInset.right, height: 0.5))
+        separatorView.backgroundColor = .black
+        footerView.addSubview(separatorView)
+        return footerView
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 1
     }
     
     @objc func saveTapped() {
         print("tapped")
+    }
+    
+    // handles expand/collapse of sections
+    @objc func buttonTapped(button: UIButton) {
+        var indexPaths = [IndexPath]()
+        let section = button.tag
+        let expanded = !ideas[section].expanded
+        ideas[section].expanded = expanded
+        button.setTitle(expanded ? "Close" : "Expand", for: .normal)
+        button.sizeToFit()
+        for row in ideas[section].descriptions.indices {
+            let path = IndexPath(row: row, section: section)
+            indexPaths.append(path)
+        }
+        if !expanded {
+            personalTableView.deleteRows(at: indexPaths, with: .fade)
+        } else {
+            personalTableView.insertRows(at: indexPaths, with: .fade)
+        }
     }
     /*
     // MARK: - Navigation

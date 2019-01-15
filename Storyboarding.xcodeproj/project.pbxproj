@@ -14,6 +14,7 @@
 		5D02B7FD21E86DCB00224F56 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5D02B7FB21E86DCB00224F56 /* LaunchScreen.storyboard */; };
 		5D02B80521E86E0500224F56 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D02B80421E86E0500224F56 /* CustomTableViewCell.swift */; };
 		5D02B80721E8787800224F56 /* GenreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D02B80621E8787800224F56 /* GenreViewController.swift */; };
+		5D0A5FCD21EDB7CB003CD6EF /* PersonalBoardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0A5FCC21EDB7CB003CD6EF /* PersonalBoardViewController.swift */; };
 		5D0D924821EBDCAC000C1503 /* Expandables.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0D924721EBDCAC000C1503 /* Expandables.swift */; };
 		5D0D924A21EC664C000C1503 /* CustomUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0D924921EC664C000C1503 /* CustomUIView.swift */; };
 		5D0D924C21EC6C05000C1503 /* CustomGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D0D924B21EC6C05000C1503 /* CustomGestureRecognizer.swift */; };
@@ -30,6 +31,7 @@
 		5D02B7FE21E86DCB00224F56 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5D02B80421E86E0500224F56 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		5D02B80621E8787800224F56 /* GenreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GenreViewController.swift; sourceTree = "<group>"; };
+		5D0A5FCC21EDB7CB003CD6EF /* PersonalBoardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonalBoardViewController.swift; sourceTree = "<group>"; };
 		5D0D924721EBDCAC000C1503 /* Expandables.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Expandables.swift; sourceTree = "<group>"; };
 		5D0D924921EC664C000C1503 /* CustomUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomUIView.swift; sourceTree = "<group>"; };
 		5D0D924B21EC6C05000C1503 /* CustomGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomGestureRecognizer.swift; sourceTree = "<group>"; };
@@ -56,6 +58,7 @@
 				5D02B7F421E86DC600224F56 /* IdeaViewController.swift */,
 				5D02B80621E8787800224F56 /* GenreViewController.swift */,
 				5DF7826721ED127100924A43 /* ElementsViewController.swift */,
+				5D0A5FCC21EDB7CB003CD6EF /* PersonalBoardViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -171,6 +174,7 @@
 			files = (
 				5D0D924821EBDCAC000C1503 /* Expandables.swift in Sources */,
 				5D0D924A21EC664C000C1503 /* CustomUIView.swift in Sources */,
+				5D0A5FCD21EDB7CB003CD6EF /* PersonalBoardViewController.swift in Sources */,
 				5D0D924C21EC6C05000C1503 /* CustomGestureRecognizer.swift in Sources */,
 				5DF7826821ED127100924A43 /* ElementsViewController.swift in Sources */,
 				5D02B80521E86E0500224F56 /* CustomTableViewCell.swift in Sources */,

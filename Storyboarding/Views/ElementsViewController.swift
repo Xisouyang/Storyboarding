@@ -10,7 +10,7 @@ import UIKit
 
 class ElementsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-//    var test: String?
+    var selectedItems: [String: [String]] = [:]
     let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
     var elementTableView: UITableView!
     
@@ -23,19 +23,19 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
 //    ]
     
     var test: [Expandables] = [
+        Expandables(expanded: false, descriptions: ["test", "test", "test", "test", "test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test"]),
         Expandables(expanded: false, descriptions: ["test", "test", "test", "test", "test"]),
         Expandables(expanded: false, descriptions: ["test", "test", "test", "test", "test"]),
         Expandables(expanded: false, descriptions: ["test", "test", "test", "test", "test"]),
-        Expandables(expanded: false, descriptions: ["test", "test", "test", "test", "test"]),
-        Expandables(expanded: false, descriptions: ["test", "test", "test", "test", "test"])
+        Expandables(expanded: false, descriptions: ["test", "test", "test", "test", "testdnsvjdkbnfdkjbndjkbndklbnfdlkbndfklnfdklbndfklbndflkbndflkbnfdlk"])
     ]
     
     let storyElements = [
-        "Adventure Stuff",
-        "Horror Stuff",
-        "Sci-Fi Stuff",
-        "Romance Stuff",
-        "Mystery Stuff"
+        "Plot",
+        "Conflict",
+        "Characters",
+        "Setting",
+        "Resolution"
     ]
     var headerView: UIView!
     var sectionView: UIView!
@@ -82,8 +82,8 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
         
         sectionView = UIView()
         let sectionFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 70)
-        sectionView.frame = sectionFrame
-        sectionView.backgroundColor = .white
+        sectionView?.frame = sectionFrame
+        sectionView?.backgroundColor = .white
         
         // section header label for tableView
         let sectionLabelFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width / 2, height: 70)
@@ -92,7 +92,7 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
         sectionLabel.textAlignment = .center
         sectionLabel.font = UIFont.boldSystemFont(ofSize: 20)
         sectionLabel.text = storyElements[section]
-        sectionView.addSubview(sectionLabel)
+        sectionView?.addSubview(sectionLabel)
         
         // button in header for tableView
         expandButton = UIButton(type: .system)
@@ -103,7 +103,7 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
         expandButton.tintColor = .black
         expandButton.frame.origin = CGPoint(x: tableView.frame.size.width - 70, y: 20)
         expandButton.tag = section
-        sectionView.addSubview(expandButton)
+        sectionView?.addSubview(expandButton)
         
         return sectionView
     }
@@ -134,14 +134,33 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if test[section].expanded {
-            return 5
+            return test[section].descriptions.count
         }
         return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = elementTableView.dequeueReusableCell(withIdentifier: "normalCell", for: indexPath)
+        cell.textLabel?.text = test[indexPath.section].descriptions[indexPath.row]
+        cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
+        cell.textLabel?.numberOfLines = 0
         return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let item = test[indexPath.section].descriptions[indexPath.row]
+        let topic = storyElements[indexPath.section]
+        if selectedItems[topic] == nil {
+            selectedItems[topic] = [String]()
+            selectedItems[topic]?.append(item)
+        } else {
+            selectedItems[topic]?.append(item)
+        }
+        print(selectedItems)
+        test[indexPath.section].descriptions.remove(at: indexPath.row)
+        let path = IndexPath(row: indexPath.row, section: indexPath.section)
+        tableView.deleteRows(at: [path], with: .fade)
     }
     
     @objc func buttonTapped(button: UIButton) {
@@ -172,5 +191,6 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
         // Pass the selected object to the new view controller.
     }
     */
-
 }
+
+// Create expandable dictionary, each time you click cell append it to that struct

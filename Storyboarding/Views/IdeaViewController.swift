@@ -6,9 +6,7 @@
 import UIKit
 
 class IdeaViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
-    //    let addButton = UIButton(frame: CGRect(x: 0, y: 0, width: 40, height: 40))
-    
+        
     let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
     var mainTableView: UITableView!
     var tmpIdeaArr: [String] = [

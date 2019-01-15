@@ -85,6 +85,7 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
+        // creates section UIViews
         sectionView = UIView()
         let sectionFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 70)
         sectionView?.frame = sectionFrame
@@ -136,7 +137,7 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 1
     }
-    
+    // must check if expanded or not to return accurate amount of rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if test[section].expanded {
             return test[section].descriptions.count
@@ -144,6 +145,7 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
         return 0
     }
     
+    // resizing cell based on textLabel
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = elementTableView.dequeueReusableCell(withIdentifier: "normalCell", for: indexPath)
         cell.textLabel?.text = test[indexPath.section].descriptions[indexPath.row]
@@ -152,6 +154,7 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
         return cell
     }
     
+    // deletes row clicked and saves it's data
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let item = test[indexPath.section].descriptions[indexPath.row]
@@ -168,6 +171,7 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
         tableView.deleteRows(at: [path], with: .fade)
     }
     
+    // handles expand/collapse of sections
     @objc func buttonTapped(button: UIButton) {
         var indexPaths = [IndexPath]()
         let section = button.tag

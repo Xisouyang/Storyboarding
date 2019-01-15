@@ -11,10 +11,21 @@ import UIKit
 class PersonalBoardViewController: UIViewController {
     
     var storage: [String : [String]] = [:]
+    let test: [Expandables] = []
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        storage["test"] = ["one", "two", "three"]
+        storage["case"] = ["one"]
+        
+        for index in 1...storage.count {
+            print(index)
+        }
+        
+//        test = [
+//            Expandables(expanded: false, descriptions: storage[]
+//        ]
 
         // Do any additional setup after loading the view.
     }

@@ -122,8 +122,9 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         sectionView.addSubview(sectionLabel)
         
         // button in header for tableView
+        let expanded = genreDescription[section].expanded
         expandButton = UIButton(type: .system)
-        expandButton.setTitle("Expand", for: .normal)
+        expandButton.setTitle(expanded ? "Close" : "Expand", for: .normal)
         expandButton.titleLabel?.font = UIFont(name: "GillSans-Light", size: 20)
         expandButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
         expandButton.sizeToFit()

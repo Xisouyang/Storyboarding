@@ -10,9 +10,6 @@ import UIKit
 
 class ElementsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    var selectedItems: [String: [String]] = [:]
-    let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
-    var elementTableView: UITableView!
     
     var test: [Expandables] = [
         Expandables(expanded: false, descriptions: ["test", "test", "test", "test", "test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test"]),
@@ -36,10 +33,14 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
     var sectionView: UIView!
     var sectionLabel: UILabel!
     var expandButton: UIButton!
+    var selectedItems: [String: [String]] = [:]
+    let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
+    var elementTableView: UITableView!
+    var genreString: String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                
+        
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
         
@@ -61,7 +62,7 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
         headerLabel = UILabel(frame: headerLabelFrame)
         headerLabel.textAlignment = .center
         headerLabel.font = UIFont.boldSystemFont(ofSize: 30)
-        headerLabel.text = "Genres"
+        headerLabel.text = genreString
         headerView.addSubview(headerLabel)
         
         
@@ -168,7 +169,6 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     
     @objc func buttonTapped(button: UIButton) {
-        
         var indexPaths = [IndexPath]()
         let section = button.tag
         let expanded = !test[section].expanded

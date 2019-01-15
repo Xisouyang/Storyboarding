@@ -30,6 +30,10 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
     var sectionView: UIView!
     var sectionLabel: UILabel!
     var expandButton: UIButton!
+    var headerView: UIView!
+    var headerViewFrame: CGRect!
+    var headerLabel: UILabel!
+    var headerLabelFrame: CGRect!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,14 +43,28 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationController?.navigationBar.barTintColor = .black
         navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
+        navigationController?.navigationBar.isTranslucent = false
         navigationItem.rightBarButtonItem?.tintColor = .white
+        
+        // Creates header view
+        headerViewFrame = CGRect(x: 0, y: 0, width: self.view.frame.width, height: 75)
+        headerView = UIView(frame: headerViewFrame)
+        headerView.backgroundColor = .lightGray
+        view.addSubview(headerView)
+        
+        headerLabelFrame = CGRect(x: 0, y: 0, width: headerView.frame.width, height: headerView.frame.height)
+        headerLabel = UILabel(frame: headerLabelFrame)
+        headerLabel.textAlignment = .center
+        headerLabel.font = UIFont.boldSystemFont(ofSize: 30)
+        headerLabel.text = "Genres"
+        headerView.addSubview(headerLabel)
 
         // Initialize frame components of the tableview
         let displayWidth: CGFloat = self.view.frame.width
         let displayHeight: CGFloat = self.view.frame.height
 
         // create and add tableview to the view
-        genreTableView = UITableView(frame: CGRect(x: 0, y: 0, width: displayWidth, height: displayHeight))
+        genreTableView = UITableView(frame: CGRect(x: 0, y: headerViewFrame.height, width: displayWidth, height: displayHeight))
         genreTableView.estimatedRowHeight = 200
         genreTableView.rowHeight = UITableView.automaticDimension
         genreTableView.register(UITableViewCell.self, forCellReuseIdentifier: "normalCell")
@@ -81,7 +99,7 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         let elementVC = ElementsViewController()
-//        elementVC.test = genreTopics[indexPath.row]
+        elementVC.genreString = genreTopics[indexPath.section]
         self.navigationController?.pushViewController(elementVC, animated: true)
     }
     

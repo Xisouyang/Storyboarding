@@ -83,14 +83,7 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let elementVC = ElementsViewController()
 //        elementVC.test = genreTopics[indexPath.row]
         self.navigationController?.pushViewController(elementVC, animated: true)
-//        print("selected \(indexPath.row)")
     }
-    
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        // in order to have the resize work i need access to the cell's textlabel
-//        // can't access the cell bc its not even created yet
-//        return 250
-//    }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         // section header view for tableView
@@ -109,7 +102,6 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
         sectionLabel.font = UIFont.boldSystemFont(ofSize: 20)
         sectionLabel.text = genreTopics[section]
         sectionView.addSubview(sectionLabel)
-        
         
         // button in header for tableView
         expandButton = UIButton(type: .system)

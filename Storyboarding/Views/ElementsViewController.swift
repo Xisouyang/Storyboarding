@@ -10,8 +10,7 @@ import UIKit
 
 class ElementsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    
-    var test: [Expandables] = [
+    var storyIdeas: [Expandables] = [
         Expandables(expanded: false, descriptions: ["test", "test", "test", "test", "test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test"]),
         Expandables(expanded: false, descriptions: ["test", "test", "test", "test", "test"]),
         Expandables(expanded: false, descriptions: ["test", "test", "test", "test", "test"]),
@@ -26,6 +25,7 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
         "Setting",
         "Resolution"
     ]
+    
     var headerView: UIView!
     var headerViewFrame: CGRect!
     var headerLabel: UILabel!
@@ -37,9 +37,12 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
     let textAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
     var elementTableView: UITableView!
     var genreString: String = ""
+    var saveButtonItem: UIBarButtonItem!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+         saveButtonItem = UIBarButtonItem(title: "Save", style: .plain, target: self, action: #selector(saveTapped))
         
         // Do any additional setup after loading the view.
         view.backgroundColor = .white
@@ -50,6 +53,7 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
         navigationController?.navigationBar.barTintColor = .black
         navigationController?.navigationBar.largeTitleTextAttributes = textAttributes
         navigationController?.navigationBar.isTranslucent = false
+        navigationItem.rightBarButtonItem = saveButtonItem
         navigationItem.rightBarButtonItem?.tintColor = .white
         
         // Creates header view
@@ -83,6 +87,14 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
         self.view.addSubview(elementTableView)
     }
     
+    @objc func saveTapped() {
+        print("tapped")
+        let personalVC = PersonalBoardViewController()
+        personalVC.storage = selectedItems
+        personalVC.genreString = headerLabel.text!
+        self.navigationController?.pushViewController(personalVC, animated: true)
+    }
+    
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
         // creates section UIViews
@@ -101,7 +113,7 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
         sectionView?.addSubview(sectionLabel)
         
         // button in header for tableView
-        let expanded = test[section].expanded
+        let expanded = storyIdeas[section].expanded
         expandButton = UIButton(type: .system)
         expandButton.setTitle(expanded ? "Close" : "Expand", for: .normal)
         expandButton.titleLabel?.font = UIFont(name: "GillSans-Light", size: 20)
@@ -140,8 +152,8 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
     }
     // must check if expanded or not to return accurate amount of rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if test[section].expanded {
-            return test[section].descriptions.count
+        if storyIdeas[section].expanded {
+            return storyIdeas[section].descriptions.count
         }
         return 0
     }
@@ -149,7 +161,7 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
     // resizing cell based on textLabel
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = elementTableView.dequeueReusableCell(withIdentifier: "normalCell", for: indexPath)
-        cell.textLabel?.text = test[indexPath.section].descriptions[indexPath.row]
+        cell.textLabel?.text = storyIdeas[indexPath.section].descriptions[indexPath.row]
         cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
         cell.textLabel?.numberOfLines = 0
         return cell
@@ -158,7 +170,7 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
     // deletes row clicked and saves it's data
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
-        let item = test[indexPath.section].descriptions[indexPath.row]
+        let item = storyIdeas[indexPath.section].descriptions[indexPath.row]
         let topic = storyElements[indexPath.section]
         if selectedItems[topic] == nil {
             selectedItems[topic] = [String]()
@@ -167,7 +179,7 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
             selectedItems[topic]?.append(item)
         }
         print(selectedItems)
-        test[indexPath.section].descriptions.remove(at: indexPath.row)
+        storyIdeas[indexPath.section].descriptions.remove(at: indexPath.row)
         let path = IndexPath(row: indexPath.row, section: indexPath.section)
         tableView.deleteRows(at: [path], with: .fade)
     }
@@ -176,11 +188,11 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
     @objc func buttonTapped(button: UIButton) {
         var indexPaths = [IndexPath]()
         let section = button.tag
-        let expanded = !test[section].expanded
-        test[section].expanded = expanded
+        let expanded = !storyIdeas[section].expanded
+        storyIdeas[section].expanded = expanded
         button.setTitle(expanded ? "Close" : "Expand", for: .normal)
         button.sizeToFit()
-        for row in test[section].descriptions.indices {
+        for row in storyIdeas[section].descriptions.indices {
             let path = IndexPath(row: row, section: section)
             indexPaths.append(path)
         }

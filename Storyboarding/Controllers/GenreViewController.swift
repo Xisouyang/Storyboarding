@@ -170,19 +170,6 @@ class GenreViewController: UIViewController, UITableViewDelegate, UITableViewDat
      touchesBegan
      Should just use cells themselves for clicking
      */
-    @objc func headerTapped(gesture: CustomGestureRecognizer) {
-        print("tapped")
-        gesture.myView?.backgroundColor = .yellow
-        
-        //        if let header = gesture.view {
-        //            if gesture.state == .began {
-        //                header.backgroundColor = .black
-        //            }
-        //            if gesture.state == .ended {
-        //                header.backgroundColor = .white
-        //            }
-        //        }
-    }
     
     // action to expand or collapse sections
     @objc func buttonTapped(button: UIButton) {

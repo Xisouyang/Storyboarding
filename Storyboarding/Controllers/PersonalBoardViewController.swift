@@ -41,20 +41,6 @@ class PersonalBoardViewController: UIViewController, UITableViewDelegate, UITabl
             }
         }
         
-//        storage["test"] = ["one", "two", "three"]
-//        storage["case"] = ["one"]
-//
-//        for index in 1...storage.count {
-//            print(index)
-//        }
-//        view.backgroundColor = .white
-//        var adventure = storage["test"]
-//
-//        test = [
-//            Expandables(expanded: false, descriptions: adventure!)
-//        ]
-//
-//        print(test)
         view.backgroundColor = .white
         print("data: \(storage)")
         ideas = [
@@ -101,9 +87,10 @@ class PersonalBoardViewController: UIViewController, UITableViewDelegate, UITabl
         
         // create and add tableview to the view
         personalTableView = UITableView(frame: CGRect(x: 0, y: headerView.frame.height, width: displayWidth, height: displayHeight))
-        personalTableView.estimatedRowHeight = 200
-        personalTableView.rowHeight = UITableView.automaticDimension
-        personalTableView.register(UITableViewCell.self, forCellReuseIdentifier: "normalCell")
+//        personalTableView.estimatedRowHeight = 200
+//        personalTableView.rowHeight = UITableView.automaticDimension
+        personalTableView.rowHeight = 200
+        personalTableView.register(PersonalTableViewCell.self, forCellReuseIdentifier: "normalCell")
         personalTableView.separatorInset.left = 10
         personalTableView.separatorInset.right = 10
         personalTableView.delegate = self
@@ -111,6 +98,7 @@ class PersonalBoardViewController: UIViewController, UITableViewDelegate, UITabl
         personalTableView.separatorColor = .black
         self.view.addSubview(personalTableView)
     }
+    
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
@@ -156,13 +144,27 @@ class PersonalBoardViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = personalTableView.dequeueReusableCell(withIdentifier: "normalCell", for: indexPath)
-        cell.textLabel?.text = ideas[indexPath.section].descriptions[indexPath.row]
-        cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
-        cell.textLabel?.numberOfLines = 0
+        let cell = personalTableView.dequeueReusableCell(withIdentifier: "normalCell", for: indexPath) as! PersonalTableViewCell
+        cell.cellTextView.frame = CGRect(x: 0, y: 0, width: self.personalTableView.frame.width, height: self.personalTableView.rowHeight)
+        cell.cellTextView.text = ideas[indexPath.section].descriptions[indexPath.row]
+        
+//        cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
+//        cell.textLabel?.numberOfLines = 0        
         return cell
     }
     
+    // trying to access specific cell row to edit text, but am only able to access row 0
+    
+    // I could create 5 different arrays to hold 1 object each - BAD
+    // maybe there's some way I can recognize what section of tableview the row is in
+    // solved: just use indexPath.section
+    
+    // next, find way to make text editable
+    // think i need to make a custom tableview cell
+    
+    // text is now editable, but need to save it when i close the row
+    
+    // height for section
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         let headerHeight: CGFloat = 70
         return headerHeight
@@ -179,6 +181,7 @@ class PersonalBoardViewController: UIViewController, UITableViewDelegate, UITabl
         return footerView
     }
     
+    // height for footer
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
         return 1
     }
@@ -214,5 +217,4 @@ class PersonalBoardViewController: UIViewController, UITableViewDelegate, UITabl
         // Pass the selected object to the new view controller.
     }
     */
-
 }

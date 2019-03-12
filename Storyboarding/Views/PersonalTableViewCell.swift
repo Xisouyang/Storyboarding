@@ -14,13 +14,10 @@ class PersonalTableViewCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         cellTextView = UITextView()
-        
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         // set the frame of the textView
         cellTextView.font = UIFont.init(name: "Times New Roman", size: 18)
-//        cellTextView.frame = CGRect(x: 0, y: 0, width: self.contentView.frame.width, height: 200)
         contentView.addSubview(cellTextView)
-        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -37,5 +34,4 @@ class PersonalTableViewCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
-
 }

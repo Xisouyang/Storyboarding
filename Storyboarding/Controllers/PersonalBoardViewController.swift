@@ -6,6 +6,18 @@
 //  Copyright © 2019 Stephen Ouyang. All rights reserved.
 //
 
+// trying to access specific cell row to edit text, but am only able to access row 0
+
+// I could create 5 different arrays to hold 1 object each - BAD
+// maybe there's some way I can recognize what section of tableview the row is in
+// solved: just use indexPath.section
+
+// next, find way to make text editable
+// think i need to make a custom tableview cell
+
+// text is now editable, but need to save it when i close the row
+// how to save it to specific spot in ideas array? 
+
 import UIKit
 
 class PersonalBoardViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
@@ -87,8 +99,7 @@ class PersonalBoardViewController: UIViewController, UITableViewDelegate, UITabl
         
         // create and add tableview to the view
         personalTableView = UITableView(frame: CGRect(x: 0, y: headerView.frame.height, width: displayWidth, height: displayHeight))
-//        personalTableView.estimatedRowHeight = 200
-//        personalTableView.rowHeight = UITableView.automaticDimension
+
         personalTableView.rowHeight = 200
         personalTableView.register(PersonalTableViewCell.self, forCellReuseIdentifier: "normalCell")
         personalTableView.separatorInset.left = 10
@@ -148,21 +159,18 @@ class PersonalBoardViewController: UIViewController, UITableViewDelegate, UITabl
         cell.cellTextView.frame = CGRect(x: 0, y: 0, width: self.personalTableView.frame.width, height: self.personalTableView.rowHeight)
         cell.cellTextView.text = ideas[indexPath.section].descriptions[indexPath.row]
         
-//        cell.textLabel?.lineBreakMode = NSLineBreakMode.byWordWrapping
-//        cell.textLabel?.numberOfLines = 0        
         return cell
     }
     
-    // trying to access specific cell row to edit text, but am only able to access row 0
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
     
-    // I could create 5 different arrays to hold 1 object each - BAD
-    // maybe there's some way I can recognize what section of tableview the row is in
-    // solved: just use indexPath.section
-    
-    // next, find way to make text editable
-    // think i need to make a custom tableview cell
-    
-    // text is now editable, but need to save it when i close the row
+    func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
+        let cell = personalTableView.dequeueReusableCell(withIdentifier: "normalCell", for: indexPath) as! PersonalTableViewCell
+        ideas[(indexPath.section)].descriptions[(indexPath.row)] = cell.cellTextView.text
+        print("Here")
+    }
     
     // height for section
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
@@ -202,6 +210,7 @@ class PersonalBoardViewController: UIViewController, UITableViewDelegate, UITabl
             let path = IndexPath(row: row, section: section)
             indexPaths.append(path)
         }
+        print(indexPaths)
         if !expanded {
             personalTableView.deleteRows(at: indexPaths, with: .fade)
         } else {
@@ -218,3 +227,11 @@ class PersonalBoardViewController: UIViewController, UITableViewDelegate, UITabl
     }
     */
 }
+
+extension PersonalBoardViewController: UITextViewDelegate {
+    
+    func textViewDidChange(_ textView: UITextView) {
+        print("I'm currently here")
+    }
+}
+

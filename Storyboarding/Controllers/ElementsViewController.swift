@@ -99,7 +99,7 @@ class ElementsViewController: UIViewController, UITableViewDelegate, UITableView
         
         // creates section UIViews
         sectionView = UIView()
-        let sectionFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 70)
+        let sectionFrame = CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 200)
         sectionView?.frame = sectionFrame
         sectionView?.backgroundColor = .white
         

@@ -97,15 +97,15 @@ class IdeaViewController: UIViewController, UITableViewDelegate, UITableViewData
         navigationController?.navigationBar.titleTextAttributes = textAttributes
     }
     
-        func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-            navigationItem.rightBarButtonItem = nil
-        }
-    
-        func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        navigationItem.rightBarButtonItem = nil
+    }
+
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
 //            UIView.animate(withDuration: 1, animations: {
 //                self.addButton.alpha = 1.0
 //            })
-            navigationItem.rightBarButtonItem = addButtonItem
-        }
+        navigationItem.rightBarButtonItem = addButtonItem
+    }
 }
 
